@@ -5,10 +5,15 @@ import lombok.Data;
 import model.Drawable;
 import model.Line;
 import model.Point;
+import model.Polygon;
 import model.Scene;
 import view.VirtualCamera;
 
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -19,6 +24,7 @@ public class CameraController {
     private VirtualCamera camera;
     private int screenHeight, screenWidth;
     private double rotationDegree, movingStep, scalingStep, scale, distanceFromCamera;
+    private boolean wallHackActive;
 
     public CameraController(Scene scene, VirtualCamera camera) {
         this.scene = scene;
@@ -30,6 +36,7 @@ public class CameraController {
         this.screenHeight = Configuration.SCREEN_HEIGHT;
         this.screenWidth = Configuration.SCREEN_WIDTH;
         this.scale = 1.0;
+        this.wallHackActive = true;
         camera.setController(this);
     }
 
@@ -129,32 +136,60 @@ public class CameraController {
     }
 
     public void draw(Graphics g) {
-        g.clearRect(0,0, screenWidth, screenHeight);
-        for(Drawable d : scene.getDrawableList()) {
-            for (Line l : d.getLineList()) {
-                if(l.getA().getZ() * l.getB().getZ() < 0) l = trimLine(l); //trims line to z = 0 to avoid bugging
-                double x1 = scale * l.getA().getX()/l.getA().getZ() * distanceFromCamera + screenWidth/2.0;
-                double y1 = screenHeight - (scale * l.getA().getY()/l.getA().getZ() * distanceFromCamera + screenHeight/2.0);
-                double x2 = scale * l.getB().getX()/l.getB().getZ() * distanceFromCamera + screenWidth/2.0;
-                double y2 = screenHeight - (scale * l.getB().getY()/l.getB().getZ() * distanceFromCamera + screenHeight/2.0);
-                g.setColor(l.getColor());
-                if(l.getA().getZ() >= 0 && l.getB().getZ() >= 0) {
-                    g.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
+        g.clearRect(0, 0, screenWidth, screenHeight);
+        if(wallHackActive == false){
+            drawWithoutWallhack(g);
+        } else {
+
+            for (Drawable d : scene.getDrawableList()) {
+                for (Line l : d.getLineList()) {
+                    l = l.trimLine().scaleLine(scale).projectTo2D().moveToCenter().revertCoordinates();
+                    double x1 = l.getA().getX();
+                    double y1 = l.getA().getY();
+                    double x2 = l.getB().getX();
+                    double y2 = l.getB().getY();
+
+                    g.setColor(l.getColor());
+                    if (l.getA().getZ() >= 0 && l.getB().getZ() >= 0) {
+                        g.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
+                    }
                 }
             }
         }
     }
 
-     Line trimLine(Line l) {
-        double dx = l.getB().getX() - l.getA().getX();
-        double dy =  l.getB().getY() - l.getA().getY();
-        double dz = l.getB().getZ() - l.getA().getZ();
-        double y = - dy * (l.getA().getZ()-1)/dz + l.getA().getY();
-        double x = - dx * (l.getA().getZ()-1)/dz + l.getA().getX();
-        if(l.getA().getZ() < 0) {
-            return new Line(new Point(x,y,0),l.getB(),l.getColor());
-        } else {
-            return new Line(l.getA(),new Point(x,y,0),l.getColor());
+    private void drawWithoutWallhack(Graphics g) {
+        List<Polygon> sortedPolygonList = sortPolygons();
+        int j = 0;
+        for (Polygon p : sortedPolygonList) {
+            Polygon pWithChangedOrder = p.changeLineOrder();
+            int[] xpoints = new int[pWithChangedOrder.getLineList().size() * 2];
+            int[] ypoints = new int[pWithChangedOrder.getLineList().size() * 2];
+            int i = 0;
+            j++;
+            for (Line l : pWithChangedOrder.getLineList()) {
+                l = l.trimLine().scaleLine(scale).projectTo2D().moveToCenter().revertCoordinates();
+                if (l.getA().getZ() >= 0 && l.getB().getZ() >= 0) {
+                    xpoints[i] = (int) l.getA().getX();
+                    xpoints[i+1] = (int) l.getB().getX();
+                    ypoints[i] = (int) l.getA().getY();
+                    ypoints[i+1] = (int) l.getB().getY();
+                    i += 2;
+                    g.setColor(l.getColor());
+                }
+            }
+            g.fillPolygon(xpoints, ypoints, i);
         }
+    }
+
+     private List<Polygon> sortPolygons() {
+        List<Polygon> sortedPolygonList = new ArrayList<>();
+        for(Drawable d : scene.getDrawableList()) {
+            for(Polygon p : d.getPolygonList()) {
+                sortedPolygonList.add(p);
+            }
+        }
+        Collections.sort(sortedPolygonList);
+        return sortedPolygonList;
      }
 }

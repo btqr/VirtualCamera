@@ -57,6 +57,9 @@ public class CameraListener implements java.awt.event.KeyListener{
         if(event.getKeyChar() == ']') {
             cameraController.scaleDown();
         }
+        if(event.getKeyChar() == 'h') {
+            cameraController.setWallHackActive(!cameraController.isWallHackActive());
+        }
     }
 
     public void keyReleased(KeyEvent event) {

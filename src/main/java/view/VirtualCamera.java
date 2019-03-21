@@ -2,6 +2,10 @@ package view;
 
 import controller.CameraController;
 import controller.CameraListener;
+import data.CenterCube;
+import data.Door;
+import data.Rooftop;
+import data.Tree;
 import lombok.Data;
 import model.*;
 

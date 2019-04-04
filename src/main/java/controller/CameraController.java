@@ -11,8 +11,7 @@ import view.VirtualCamera;
 
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
 
 import static java.lang.Math.cos;
@@ -181,6 +180,23 @@ public class CameraController {
             g.fillPolygon(xpoints, ypoints, i);
         }
     }
+
+    /* void drawWithZBuffor(Graphics g) {
+        Map<Point, Color> colorMap = new HashMap<>();
+        List<Polygon> polygonList = sortPolygons();
+        for(int x = 0; x < screenWidth; x++) {
+            for(int y = 0; y < screenHeight; y++) {
+                Point currentPoint = new Point(x,y, Double.MAX_VALUE);
+                colorMap.put(currentPoint, Color.WHITE);
+                for(Polygon p : polygonList) {
+                    currentPoint.setZ(p.getZForXY(x,y));
+                    if(colorMap.get(currentPoint) == null) {
+                        colorMap.put(currentPoint, p.getColor)
+                    }
+                }
+            }
+        }
+    }*/
 
      private List<Polygon> sortPolygons() {
         List<Polygon> sortedPolygonList = new ArrayList<>();

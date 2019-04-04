@@ -32,7 +32,7 @@ public class VirtualCamera extends JPanel {
         scene.add(new CenterCube());
         scene.add(new Rooftop());
         scene.add(new Tree());
-        scene.add(new Door());
+        //scene.add(new Door());
         while(true) camera.repaint();
     }
 }

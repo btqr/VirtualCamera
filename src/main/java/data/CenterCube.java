@@ -39,15 +39,18 @@ public class CenterCube implements Drawable {
     private void initPoints() {
         double d = distanceBetweenPoints/2.0;
 
-        pointList.add(new Point(-2*d, -d, distanceFromCamera+d));
-        pointList.add(new Point(-2*d, d, distanceFromCamera+d));
-        pointList.add(new Point(2*d, d, distanceFromCamera+d));
-        pointList.add(new Point(2*d, -d, distanceFromCamera+d));
+        pointList.add(new Point(-2*d, -d, distanceFromCamera+d));//
+        pointList.add(new Point(-2*d, d, distanceFromCamera+d));//
+        pointList.add(new Point(2*d, d, distanceFromCamera+d));//
+        pointList.add(new Point(2*d, -d, distanceFromCamera+d));//
 
         pointList.add(new Point(-2*d, -d, distanceFromCamera+3*d));
         pointList.add(new Point(-2*d, d, distanceFromCamera+3*d));
         pointList.add(new Point(2*d, d, distanceFromCamera+3*d));
         pointList.add(new Point(2*d, -d, distanceFromCamera+3*d));
+
+        //pointList.add(new Point(0, -d, distanceFromCamera+d));
+        //pointList.add(new Point(0, d, distanceFromCamera+d));
     }
 
     private void initLines() {

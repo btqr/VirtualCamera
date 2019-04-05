@@ -1,13 +1,17 @@
 package controller;
 
+import view.VirtualCamera;
+
 import java.awt.event.KeyEvent;
 
 public class CameraListener implements java.awt.event.KeyListener{
 
     private CameraController cameraController;
+    private VirtualCamera virtualCamera;
 
-    public CameraListener(CameraController controller) {
+    public CameraListener(VirtualCamera virtualCamera, CameraController controller) {
         this.cameraController = controller;
+        this.virtualCamera = virtualCamera;
     }
 
     public void keyTyped(KeyEvent event) {
@@ -60,6 +64,7 @@ public class CameraListener implements java.awt.event.KeyListener{
         if(event.getKeyChar() == 'h') {
             cameraController.setWallHackActive(!cameraController.isWallHackActive());
         }
+        //cameraController.draw(virtualCamera.getGraphics());
     }
 
     public void keyReleased(KeyEvent event) {

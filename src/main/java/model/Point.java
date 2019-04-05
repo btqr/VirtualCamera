@@ -3,6 +3,9 @@ package model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import static java.lang.StrictMath.abs;
+import static java.lang.StrictMath.sqrt;
+
 @Data
 @AllArgsConstructor
 public class Point {
@@ -13,6 +16,10 @@ public class Point {
         this.y = y;
     }
 
+    public double distance(Point p) {
+        return (p.getX()-getX())*(p.getX()-getX()) + (p.getY()-getY())*(p.getY()-getY()) + (p.getZ()-getZ())*(p.getZ()-getZ());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -20,9 +27,10 @@ public class Point {
 
         Point point = (Point) o;
 
-        if (Double.compare(point.x, x) != 0) return false;
-        if (Double.compare(point.y, y) != 0) return false;
-        return Double.compare(point.z, z) == 0;
+        if (abs(point.x -  x) > 0.000001) return false;
+        if (abs(point.y -  y) > 0.000001) return false;
+        if (abs(point.z -  z) > 0.000001) return false;
+        return true;
     }
 
     @Override

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -19,6 +20,13 @@ public class Polygon implements Comparable<Polygon> {
         }
     }
 
+    public Polygon(List<Line> lines) {
+        this.lineList = new ArrayList<Line>();
+        for(Line line : lines) {
+            this.lineList.add(line);
+        }
+    }
+
     public double findMinZ() {
         double minZ = Double.MAX_VALUE;
         for (Line line : lineList) {
@@ -28,7 +36,7 @@ public class Polygon implements Comparable<Polygon> {
     }
 
     public double findMaxZ() {
-        double maxZ = Double.MIN_VALUE;
+        double maxZ = -1000000000;
         for (Line line : lineList) {
             maxZ = max(max(line.getA().getZ(), line.getB().getZ()),maxZ);
         }
@@ -44,7 +52,7 @@ public class Polygon implements Comparable<Polygon> {
     }
 
     public double findMaxY() {
-        double maxY = Double.MIN_VALUE;
+        double maxY = -1000000000;
         for (Line line : lineList) {
             maxY = max(max(line.getA().getY(), line.getB().getY()),maxY);
         }
@@ -60,7 +68,7 @@ public class Polygon implements Comparable<Polygon> {
     }
 
     public double findMaxX() {
-        double maxX = Double.MIN_VALUE;
+        double maxX = -1000000000;
         for (Line line : lineList) {
             maxX = max(max(line.getA().getX(), line.getB().getX()),maxX);
         }
@@ -96,6 +104,30 @@ public class Polygon implements Comparable<Polygon> {
             i++;
         }
         return p;
+    }
+
+    public Polygon changeLineOrder2() {
+        if(getLineList().size() < 3) return this;
+        List<Line> newLineList = new ArrayList<>();
+        newLineList.add(getLineList().get(0));
+        getLineList().remove(0);
+        while(!getLineList().isEmpty()) {
+            double min = 10000000000000.0;
+            int min_indx = -1;
+            for (int j = 0; j < getLineList().size(); j++) {
+                if(getLineList().get(j).getA().distance(newLineList.get(newLineList.size()-1).getB()) < min) {
+                    min = getLineList().get(j).getA().distance(newLineList.get(newLineList.size() - 1).getB());
+                    min_indx = j;
+                }
+                if(getLineList().get(j).getB().distance(newLineList.get(newLineList.size()-1).getB()) < min) {
+                    min = getLineList().get(j).getB().distance(newLineList.get(newLineList.size()-1).getB());
+                    min_indx = j;
+                }
+            }
+            newLineList.add(getLineList().get(min_indx));
+            getLineList().remove(min_indx);
+        }
+        return new Polygon(newLineList);
     }
 
     @Override

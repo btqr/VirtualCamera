@@ -7,4 +7,5 @@ public class Configuration {
     public static final double MOVING_STEP = 10;
     public static final double SCALING_STEP = 0.01;
     public static final double DISTANCE_FROM_CAMERA = 450;
+    public static final double SPLITTING_CONST = 1000;
 }

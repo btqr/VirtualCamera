@@ -25,14 +25,17 @@ public class VirtualCamera extends JPanel {
     public static void main(String args[]) {
         final VirtualCamera camera = new VirtualCamera();
         Scene scene = new Scene();
-        CameraController controller = new CameraController(scene, camera);
-        CameraListener cameraListener = new CameraListener(controller);
-        Window window = new Window(camera, cameraListener);
 
         scene.add(new CenterCube());
         scene.add(new Rooftop());
         scene.add(new Tree());
         //scene.add(new Door());
+
+        CameraController controller = new CameraController(scene, camera);
+        CameraListener cameraListener = new CameraListener(camera, controller);
+        Window window = new Window(camera, cameraListener);
+
+
         while(true) camera.repaint();
     }
 }

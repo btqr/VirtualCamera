@@ -44,17 +44,17 @@ public class Tree implements Drawable {
         pointList.add(new model.Point(3*d+30, -d, distanceFromCamera+d+30));
 
         //up
-        pointList.add(new model.Point(3*d, d, distanceFromCamera+d));
-        pointList.add(new model.Point(3*d+30, d, distanceFromCamera+d));
-        pointList.add(new model.Point(3*d, d, distanceFromCamera+d+30));
-        pointList.add(new model.Point(3*d+30, d, distanceFromCamera+d+30));
+        pointList.add(new model.Point(3*d, 12*d, distanceFromCamera+d));
+        pointList.add(new model.Point(3*d+30, 12*d, distanceFromCamera+d));
+        pointList.add(new model.Point(3*d, 12*d, distanceFromCamera+d+30));
+        pointList.add(new model.Point(3*d+30, 12*d, distanceFromCamera+d+30));
 
         //green part
-        pointList.add(new model.Point(3*d-15, d, distanceFromCamera+d-15));
-        pointList.add(new model.Point(3*d+45, d, distanceFromCamera+d-15));
-        pointList.add(new model.Point(3*d-15, d, distanceFromCamera+d+45));
-        pointList.add(new model.Point(3*d+45, d, distanceFromCamera+d+45));
-        pointList.add(new Point(3*d+15, d+150, distanceFromCamera+d));
+        pointList.add(new model.Point(3*d-15, 12*d, distanceFromCamera+d-15));
+        pointList.add(new model.Point(3*d+45, 12*d, distanceFromCamera+d-15));
+        pointList.add(new model.Point(3*d-15, 12*d, distanceFromCamera+d+45));
+        pointList.add(new model.Point(3*d+45, 12*d, distanceFromCamera+d+45));
+        pointList.add(new Point(3*d+15, 12*d+150, distanceFromCamera+d));
     }
 
     private void initLines() {
@@ -64,10 +64,10 @@ public class Tree implements Drawable {
         lineList.add(new Line(pointList.get(2), pointList.get(3),Color.darkGray));
         lineList.add(new Line(pointList.get(1), pointList.get(3),Color.darkGray));
 
-        lineList.add(new Line(pointList.get(5), pointList.get(4),Color.darkGray));
-        lineList.add(new Line(pointList.get(4), pointList.get(6),Color.darkGray));
-        lineList.add(new Line(pointList.get(6), pointList.get(7),Color.darkGray));
-        lineList.add(new Line(pointList.get(7), pointList.get(5),Color.darkGray));
+        lineList.add(new Line(pointList.get(5), pointList.get(4),Color.GREEN));
+        lineList.add(new Line(pointList.get(4), pointList.get(6),Color.GREEN));
+        lineList.add(new Line(pointList.get(6), pointList.get(7),Color.GREEN));
+        lineList.add(new Line(pointList.get(7), pointList.get(5),Color.GREEN));
 
         lineList.add(new Line(pointList.get(0), pointList.get(4),Color.darkGray));
         lineList.add(new Line(pointList.get(1), pointList.get(5),Color.darkGray));

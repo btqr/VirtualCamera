@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="refactor-camera" />
+        <module name="virtual-camera" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="virtual-camera" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
